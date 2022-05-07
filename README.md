@@ -1,1 +1,1 @@
-# stream
+# smy first cmake template library
