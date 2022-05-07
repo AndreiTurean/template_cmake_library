@@ -1,1 +1,1 @@
-# smy first cmake template library
+# my first cmake template library
