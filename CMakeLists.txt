@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21.0)
-message("Template library in cmake created by Andrei Turean")
+message("Template library in CMake created by Andrei Turean")
 #   there is no need to set the cmp policy 0048 in newer versions of cmake
 #   cmake_policy(SET CMP048)
 
@@ -10,6 +10,28 @@ message("Template library in cmake created by Andrei Turean")
 set(CMAKE_INSTALL_RPATH ${ORIGIN})
 
 #######################################################
+# output artifacts redirect                           #
+#######################################################
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# for a bigger project maybe you want to set for each target where the build output directory
+# will be built. Instead of setting the cache variable in the top level CMake file you can instead
+# set it with for each target as follows:
+
+#set_target_properties( ${PROJECT_NAME}
+#    PROPERTIES
+#    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+#    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+#    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+#)
+
+# for a small project like this one you don't need to bother with setting per target since
+# there are only two targets, the library and the unit test.
+
+#######################################################
 # project definition                                  #
 #######################################################
 #   setting the project name, version and language
@@ -17,6 +39,8 @@ project(my_lib VERSION 0.1.0)
 
 #   add a normal library and control how it is build using the BUILD_SHARED_LIB flag from the command
 #   line interface
+#   https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html
+
 add_library(${PROJECT_NAME}
 source/source.cxx
 )
@@ -26,6 +50,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>  # <prefix>/include/
 )
+
+#######################################################
+# setting target compile feature                      #
+#######################################################
+# https://cmake.org/cmake/help/latest/manual/cmake-compile-features.7.html
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
 #######################################################
 # defining visibility control                         #
