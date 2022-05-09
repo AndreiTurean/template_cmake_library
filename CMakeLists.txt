@@ -32,6 +32,19 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # there are only two targets, the library and the unit test.
 
 #######################################################
+# misc                                                #
+#######################################################
+
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_DEBUG_POSTFIX "_debug")
+
+# Set the build type if not set
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
+#######################################################
 # project definition                                  #
 #######################################################
 #   setting the project name, version and language
@@ -52,10 +65,21 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 )
 
 #######################################################
-# setting target compile feature                      #
+# setting target compile feature/options              #
 #######################################################
 # https://cmake.org/cmake/help/latest/manual/cmake-compile-features.7.html
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+
+
+target_compile_options(${PROJECT_NAME} PRIVATE
+  $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX> # setting the W4 warning level for MSVC compilers
+  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror> # setting the Wall for other compilers
+)
+
+if(RASPBIAN)
+  # Not actually needed, just there for convenience
+  target_compile_definitions(${PROJECT_NAME} PUBLIC -D__RASPBIAN__)
+endif()
 
 #######################################################
 # defining visibility control                         #
