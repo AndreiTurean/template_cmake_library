@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Linux",
+            "name": "Linux_debug",
             "includePath": [
                 "${workspaceFolder}/**",
                 "${vcpkgRoot}/x64-linux/include"
@@ -11,7 +11,21 @@
             "cStandard": "gnu17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "linux-gcc-x64",
-            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
+            "compileCommands": "${workspaceFolder}/build/debug/compile_commands.json",
+            "configurationProvider": "go2sh.cmake-integration"
+        },
+        {
+            "name": "Linux_release",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${vcpkgRoot}/x64-linux/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64",
+            "compileCommands": "${workspaceFolder}/build/release/compile_commands.json",
             "configurationProvider": "go2sh.cmake-integration"
         }
     ],
