@@ -1,0 +1,3 @@
+::git section
+
+in order to see graphically your git branches use the following command: git log --graph --decorate --oneline
