@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21.0)
+cmake_minimum_required(VERSION 3.16.0)
 message("Template library in CMake created by Andrei Turean")
 #   there is no need to set the cmp policy 0048 in newer versions of cmake
 #   cmake_policy(SET CMP048)
@@ -144,10 +144,12 @@ test/main.cxx)
 # for the windows platform we use the vcpkg to obtain packages.
 # for the other platform the package management wasn't introduced yet
 if(NOT MSVC)
+    #target_link_libraries(${PROJECT_NAME}_test PRIVATE GTest::gtest GTest::gtest_main)
     find_package(GTest REQUIRED)
-    target_link_libraries(${PROJECT_NAME}_test PRIVATE GTest::gtest GTest::gtest_main)
+    target_include_directories(${PROJECT_NAME}_test PRIVATE ${GTEST_INCLUDE_DIRS})
+    target_link_libraries(${PROJECT_NAME}_test PRIVATE ${GTEST_LIBRARIES} pthread)
 else()
-    find_package(GTest CONFIG REQUIRED)
+    find_package(GTest REQUIRED)
     target_link_libraries(${PROJECT_NAME}_test PRIVATE GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
 endif()
 
