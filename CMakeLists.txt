@@ -137,16 +137,23 @@ install(FILES
 
 include(GoogleTest)
 enable_testing()
-find_package(GTest REQUIRED)
 
 add_executable(${PROJECT_NAME}_test
 test/main.cxx)
 
-gtest_add_tests(TARGET ${PROJECT_NAME}_test
-)
+# for the windows platform we use the vcpkg to obtain packages.
+# for the other platform the package management wasn't introduced yet
+if(NOT MSVC)
+    find_package(GTest REQUIRED)
+    target_link_libraries(${PROJECT_NAME}_test PRIVATE GTest::gtest GTest::gtest_main)
+else()
+    find_package(GTest CONFIG REQUIRED)
+    target_link_libraries(${PROJECT_NAME}_test PRIVATE GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
+endif()
 
-target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME}_test GTest::gtest GTest::gtest_main)
+gtest_add_tests(TARGET ${PROJECT_NAME}_test)
+
+target_link_libraries(${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME})
 
 #######################################################
 # cpack                                               #
