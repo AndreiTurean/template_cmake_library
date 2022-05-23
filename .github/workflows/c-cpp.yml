@@ -14,4 +14,4 @@ jobs:
     steps:
     - name: Restore artifacts, or setup vcpkg (do not install any package)
       uses: AndreiTurean/template_cmake_library@v1
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@main
