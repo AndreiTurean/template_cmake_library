@@ -12,12 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Restore artifacts, or setup vcpkg (do not install any package)
+      uses: AndreiTurean/run-vcpkg@v10 # Always specify the specific _version_ of the 
+                                  # action you need, `v10` in this case to stay up
+                                  # to date with fixes on v10 branch.
     - uses: actions/checkout@v3
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
