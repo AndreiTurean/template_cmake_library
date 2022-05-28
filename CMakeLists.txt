@@ -102,9 +102,9 @@ VERSION 0.1.0)
 
 include(CMakePackageConfigHelpers)
 
-configure_package_config_file(my_lib.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/my_lib.cmake
-  INSTALL_DESTINATION ${LIB_INSTALL_DIR}/my_lib/cmake)
+configure_package_config_file(${PROJECT_NAME}.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.cmake
+  INSTALL_DESTINATION ${LIB_INSTALL_DIR}/${PROJECT_NAME}/cmake)
 
 write_basic_package_version_file(
   ${PROJECT_NAME}ConfigVersion.cmake
