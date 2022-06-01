@@ -44,6 +44,11 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      CACHE STRING "")
+endif()
+
 #######################################################
 # project definition                                  #
 #######################################################
@@ -141,17 +146,9 @@ enable_testing()
 add_executable(${PROJECT_NAME}_test
 test/main.cxx)
 
-# for the windows platform we use the vcpkg to obtain packages.
-# for the other platform the package management wasn't introduced yet
-if(NOT MSVC)
-    #target_link_libraries(${PROJECT_NAME}_test PRIVATE GTest::gtest GTest::gtest_main)
-    find_package(GTest REQUIRED)
-    target_include_directories(${PROJECT_NAME}_test PRIVATE ${GTEST_INCLUDE_DIRS})
-    target_link_libraries(${PROJECT_NAME}_test PRIVATE ${GTEST_LIBRARIES} pthread)
-else()
-    find_package(GTest REQUIRED)
-    target_link_libraries(${PROJECT_NAME}_test PRIVATE GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
-endif()
+# packages are getted using the vcpkg package manager
+find_package(GTest REQUIRED)
+target_link_libraries(${PROJECT_NAME}_test PRIVATE GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
 
 gtest_add_tests(TARGET ${PROJECT_NAME}_test)
 

@@ -1,7 +1,12 @@
-# Leasons learned during the creation process.
+# Prerequisites for building this project
+## VCPKG
+*	VCPKG is used package management. It helps us manage our dependecies in order to create a cross platform and cross compile project.
+*	VCPKG reduce the need of having already installed packages, for example google test, and get them if you require them.
 
-*   Always set the minimum cmake version.
-*   It is important to comment each line of your newly create CMake directory.
-*   Instead of just copying CMake commands try to learn them and practice with them as much as possible.
-*	For windows platform use vcpkg to obtain the packages and use the following command: vcpkg install gtest:x64-windows
-*	For the other platforms an investigation will be performed to see if they support vcpkg or the packages will be installed using a script
+##	CMake
+*	CMake will generate the build system and will help us develop cross platform applications.
+
+##	Git
+##	WS:
+*	WSL will be used for cross compiling
+
