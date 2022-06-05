@@ -2,13 +2,13 @@
   "version": 3,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 16,
+    "minor": 22,
     "patch": 0
   },
   "configurePresets": [
     {
-      "name": "windows-debug",
-      "displayName": "Windows x64 Debug",
+      "name": "ninja-windows-debug",
+      "displayName": "ninja-windows-debug-x64",
       "description": "Sets Ninja generator, compilers, x64 architecture, build and install directory, debug build type",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
@@ -28,8 +28,8 @@
       }
     },
     {
-      "name": "windows-release",
-      "displayName": "Windows x64 Release",
+      "name": "ninja-windows-release",
+      "displayName": "ninja-windows-release-x64",
       "description": "Sets Ninja generator, compilers, x64 architecture, build and install directory, debug build type",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
@@ -49,8 +49,8 @@
       }
     },
     {
-      "name": "linux",
-      "displayName": "Linux Debug",
+      "name": "ninja-linux-debug",
+      "displayName": "ninja-linux-debug-x64",
       "description": "Sets Ninja generator, compilers, build and install directory, debug build type",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
@@ -59,6 +59,170 @@
         "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
         "CMAKE_TOOLCHAIN_FILE": "~/vcpkg/scripts/buildsystems/vcpkg.cmake"
       }
+    },
+    {
+      "name": "ninja-linux-release",
+      "displayName": "ninja-linux-release-x64",
+      "description": "Sets Ninja generator, compilers, build and install directory, debug build type",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
+        "CMAKE_TOOLCHAIN_FILE": "~/vcpkg/scripts/buildsystems/vcpkg.cmake"
       }
+    },
+    {
+      "name": "mscv-windows-debug",
+      "displayName": "mscv-windows-debug-x64",
+      "description": "Sets MSVC generator, compilers, x64 architecture, build and install directory, debug build type",
+      "generator": "Visual Studio 17 2022",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
+        "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Windows"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mscv-windows-release",
+      "displayName": "mscv-windows-release-x64",
+      "description": "Sets MSVC generator, compilers, x64 architecture, build and install directory, debug build type",
+      "generator": "Visual Studio 17 2022",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
+        "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Windows"
+          ]
+        }
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "mscv-build-preset-debug",
+      "description": "",
+      "displayName": "mscv-windows-build-preset-debug",
+      "configurePreset": "mscv-windows-debug"
+    },
+    {
+      "name": "mscv-build-preset-release",
+      "description": "",
+      "displayName": "mscv-windows-build-preset-release",
+      "configurePreset": "mscv-windows-release"
+    },
+    {
+      "name": "ninja-build-preset-debug",
+      "description": "",
+      "displayName": "ninja-windows-build-preset-debug",
+      "configurePreset": "ninja-windows-debug"
+    },
+    {
+      "name": "ninja-build-preset-release",
+      "description": "",
+      "displayName": "ninja-windows-build-preset-release",
+      "configurePreset": "ninja-windows-release"
+    },
+    {
+      "name": "linux-build-preset-release",
+      "description": "",
+      "displayName": "linux-build-preset-release",
+      "configurePreset": "ninja-linux-release"
+    },
+    {
+      "name": "linux-build-preset-debug",
+      "description": "",
+      "displayName": "linux-build-preset-debug",
+      "configurePreset": "ninja-linux-debug"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "mscv-test-preset-debug",
+      "description": "",
+      "displayName": "mscv-test-preset-debug-x64",
+      "configurePreset": "mscv-windows-debug",
+      "output": { "outputOnFailure": true },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "mscv-test-preset-release",
+      "description": "",
+      "displayName": "mscv-test-preset-release-x64",
+      "configurePreset": "mscv-windows-release",
+      "output": { "outputOnFailure": true },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "linux-test-preset-debug",
+      "description": "",
+      "displayName": "linux-test-preset-debug",
+      "configurePreset": "ninja-linux-debug",
+      "output": { "outputOnFailure": true },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "linux-test-preset-release",
+      "description": "",
+      "displayName": "linux-test-preset-release",
+      "configurePreset": "ninja-linux-release",
+      "output": { "outputOnFailure": true },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "ninja-test-preset-release",
+      "description": "",
+      "displayName": "ninja-test-preset-release",
+      "configurePreset": "ninja-windows-release",
+      "output": { "outputOnFailure": true },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "ninja-test-preset-debug",
+      "description": "",
+      "displayName": "ninja-test-preset-debug",
+      "configurePreset": "ninja-windows-debug",
+      "output": { "outputOnFailure": true },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    }
   ]
 }

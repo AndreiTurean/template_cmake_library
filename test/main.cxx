@@ -41,7 +41,8 @@ TEST(divide, zero)
     EXPECT_EQ(src::divide(4,0),0);
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv) 
+{
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
