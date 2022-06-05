@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16.0)
+cmake_minimum_required(VERSION 3.22.0)
 message("Template library in CMake created by Andrei Turean")
 #   there is no need to set the cmp policy 0048 in newer versions of cmake
 #   cmake_policy(SET CMP048)
@@ -63,6 +63,8 @@ add_library(${PROJECT_NAME}
 source/source.cxx
 )
 
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
 #   add the include directory to our target as PUBLIC
 target_include_directories(${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -74,6 +76,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 #######################################################
 # https://cmake.org/cmake/help/latest/manual/cmake-compile-features.7.html
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+
+if(BUILD_SHARED_LIBS)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC LIBRARY_DLL)
+endif()
 
 
 target_compile_options(${PROJECT_NAME} PRIVATE
@@ -140,19 +146,21 @@ install(FILES
 # test step                                           #
 #######################################################
 
-include(GoogleTest)
-enable_testing()
+if(BUILD_TESTING)
+    include(GoogleTest)
+    enable_testing()
 
-add_executable(${PROJECT_NAME}_test
-test/main.cxx)
+    add_executable(${PROJECT_NAME}_test
+    test/main.cxx)
 
-# packages are getted using the vcpkg package manager
-find_package(GTest REQUIRED)
-target_link_libraries(${PROJECT_NAME}_test PRIVATE GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
+    # packages are getted using the vcpkg package manager
+    find_package(GTest REQUIRED)
+    target_link_libraries(${PROJECT_NAME}_test PRIVATE GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
 
-gtest_add_tests(TARGET ${PROJECT_NAME}_test)
+    gtest_add_tests(TARGET ${PROJECT_NAME}_test)
 
-target_link_libraries(${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME})
+    target_link_libraries(${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME}::${PROJECT_NAME}) #link against the alias library
+endif()
 
 #######################################################
 # cpack                                               #
